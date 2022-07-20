@@ -9,6 +9,11 @@ app.get("/", (req, res) => {
     res.send("Hello World");
 });
 
-app.listen(PORT, () => {
-    console.log(`Server listening on port ${PORT}`);
+app.listen(PORT, async () => {
+    try {
+        console.log(`Server listening on port ${PORT}`);
+    } catch (err) {
+        console.log(`Server failed to start: ${err}`);
+        process.exit(1);
+    }
 });
