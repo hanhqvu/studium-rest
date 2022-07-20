@@ -1,8 +1,6 @@
 const express = require("express");
 
 const router = express.Router();
-
-const knex = require("../../db/knex");
 const courseModel = require("../models/courseModel");
 
 router.get("/", async (req, res) => {
