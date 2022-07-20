@@ -19,7 +19,21 @@ app.get("/api/course", async (req, res) => {
     }
 });
 
-app.post("/api/course", async (req, res) => {});
+app.post("/api/course", async (req, res) => {
+    const { name, type, dateStart, dateEnd } = req.body;
+
+    try {
+        await knex("course").insert({
+            name: name,
+            type: type,
+            date_start: dateStart,
+            date_end: dateEnd,
+        });
+        res.send(204).end();
+    } catch (err) {
+        res.sendStatus(404).end();
+    }
+});
 
 app.listen(PORT, async () => {
     try {
