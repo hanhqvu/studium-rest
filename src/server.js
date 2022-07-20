@@ -15,13 +15,12 @@ app.get("/api/course", async (req, res) => {
         const allCourse = await knex.select("*").from("course");
         res.send(allCourse).status(200).end();
     } catch (err) {
-        res.send(404).end();
+        res.sendStatus(404).end();
     }
 });
 
 app.post("/api/course", async (req, res) => {
     const { name, type, dateStart, dateEnd } = req.body;
-
     try {
         await knex("course").insert({
             name: name,
@@ -29,7 +28,18 @@ app.post("/api/course", async (req, res) => {
             date_start: dateStart,
             date_end: dateEnd,
         });
-        res.send(204).end();
+        res.sendStatus(204).end();
+    } catch (err) {
+        res.sendStatus(404).end();
+    }
+});
+
+app.post("/api/course/:name", async (req, res) => {
+    const { name } = req.params;
+    const edits = req.body;
+    try {
+        await knex("course").where("name", name).update(edits);
+        res.sendStatus(204).end();
     } catch (err) {
         res.sendStatus(404).end();
     }
