@@ -1,11 +1,13 @@
 const express = require("express");
-const knex = require("../../db/knex");
 
 const router = express.Router();
 
+const knex = require("../../db/knex");
+const courseModel = require("../models/courseModel");
+
 router.get("/", async (req, res) => {
     try {
-        const allCourse = await knex.select("*").from("course");
+        const allCourse = await courseModel.getAll();
         res.send(allCourse).status(200).end();
     } catch (err) {
         res.sendStatus(404).end();
@@ -14,24 +16,25 @@ router.get("/", async (req, res) => {
 
 router.post("/", async (req, res) => {
     const { name, type, dateStart, dateEnd } = req.body;
+    const payload = {
+        name: name,
+        type: type,
+        date_start: dateStart,
+        date_end: dateEnd,
+    };
     try {
-        await knex("course").insert({
-            name: name,
-            type: type,
-            date_start: dateStart,
-            date_end: dateEnd,
-        });
+        courseModel.addCourse(payload);
         res.sendStatus(204).end();
     } catch (err) {
         res.sendStatus(404).end();
     }
 });
 
-router.patch(":name", async (req, res) => {
+router.patch("/:name", async (req, res) => {
     const { name } = req.params;
-    const edits = req.body;
+    const payload = req.body;
     try {
-        await knex("course").where("name", name).update(edits);
+        await courseModel.editCourse(name, payload);
         res.sendStatus(204).end();
     } catch (err) {
         res.sendStatus(404).end();
@@ -41,7 +44,7 @@ router.patch(":name", async (req, res) => {
 router.delete("/:name", async (req, res) => {
     const { name } = req.params;
     try {
-        await knex("course").where("name", name).del();
+        await courseModel.removeCourse(name);
         res.sendStatus(204).end();
     } catch (err) {
         res.sendStatus(404).end();
