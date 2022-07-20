@@ -34,11 +34,21 @@ app.post("/api/course", async (req, res) => {
     }
 });
 
-app.post("/api/course/:name", async (req, res) => {
+app.patch("/api/course/:name", async (req, res) => {
     const { name } = req.params;
     const edits = req.body;
     try {
         await knex("course").where("name", name).update(edits);
+        res.sendStatus(204).end();
+    } catch (err) {
+        res.sendStatus(404).end();
+    }
+});
+
+app.delete("/api/course/:name", async (req, res) => {
+    const { name } = req.params;
+    try {
+        await knex("course").where("name", name).del();
         res.sendStatus(204).end();
     } catch (err) {
         res.sendStatus(404).end();
