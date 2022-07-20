@@ -1,8 +1,8 @@
-import dotenv from "dotenv";
+const dotenv = require("dotenv");
 
 dotenv.config();
 
-export default {
+module.exports = {
     client: "pg",
     connection: process.env.DB_URL || {
         host: process.env.DB_HOST || "127.0.0.1",
@@ -13,6 +13,7 @@ export default {
     },
     migrations: {
         directory: "./db/migrations",
+        loadExtensions: [".js"],
     },
     seeds: {
         directory: "./db/seeds",
