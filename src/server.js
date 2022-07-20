@@ -11,7 +11,6 @@ app.get("/", (req, res) => {
 });
 
 app.get("/api/course", async (req, res) => {
-    console.log(req.body);
     try {
         const allCourse = await knex.select("*").from("course");
         res.send(allCourse).status(200).end();
@@ -19,6 +18,8 @@ app.get("/api/course", async (req, res) => {
         res.send(404).end();
     }
 });
+
+app.post("/api/course", async (req, res) => {});
 
 app.listen(PORT, async () => {
     try {
