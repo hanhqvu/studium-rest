@@ -8,11 +8,8 @@ const app = express();
 const courseController = require("./controllers/courseController");
 
 app.use(express.json());
+app.use("/", express.static("public"));
 app.use("/api/course", courseController);
-
-app.get("/", (req, res) => {
-    res.send("Hello World");
-});
 
 const options = {
     definition: {
