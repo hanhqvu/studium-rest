@@ -3,6 +3,60 @@ const express = require("express");
 const router = express.Router();
 const courseModel = require("../models/courseModel");
 
+/**
+ * @swagger
+ * /api/course:
+ *  get:
+ *      description: Get all courses
+ *      responses:
+ *          200:
+ *              description: List of all courses
+ *  post:
+ *      description: Add a new course
+ *      requestBody: 
+ *        required: true
+ *        description: A JSON object containing pet information
+ *        examples: 
+ *          name: N2 Part-time
+ *          type: JLPT
+ *      responses:
+ *          204:
+ *              description: Course successfully added
+ * /api/course/{name}:
+ *   patch:
+ *      description: Update an existing course
+ *      parameters:
+ *          - in: path
+ *            name: course name
+ *            required: true
+ *            scheme:
+ *              type: string
+ *      requestBody: 
+ *        required: true
+ *        description: A JSON object containing pet information
+ *        examples: 
+ *          name: N2 Part-time
+ *          type: JLPT
+ *      responses:
+ *          204:
+ *              description: Successfully update the existing course
+ *          404:
+ *              description: Couse was not found
+ *   delete:
+ *      description: Delete an existing course
+ *      parameters:
+ *          - in: path
+ *            name: course name
+ *            required: true
+ *            scheme:
+ *              type: string
+ *      responses:
+ *          204:
+ *              description: Successfully delete the existing course
+ *          404:
+ *              description: Couse was not found
+ */
+
 router.get("/", async (req, res) => {
     try {
         const allCourse = await courseModel.getAll();
