@@ -6,10 +6,12 @@ const swaggerUI = require("swagger-ui-express");
 const PORT = process.env.PORT || 3000;
 const app = express();
 const courseController = require("./controllers/courseController");
+const userController = require("./controllers/userController");
 
 app.use(express.json());
 app.use("/", express.static("public"));
 app.use("/api/course", courseController);
+app.use("/api/user", userController);
 
 const options = {
     definition: {
